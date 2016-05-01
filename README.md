@@ -7,14 +7,8 @@
 ### 进度状态：
 intro/getting-started
 
-| Tables        | Are           | Cool  |
+| File        | 翻译           | Cool  |
 | ------------- |:-------------:| -----:|
-| col 3 is      | right-aligned | $1600 |
-| col 2 is      | centered      |   $12 |
-| zebra stripes | are neat      |    $1 |
-
-| File  | 翻译 |  初步校验  | 审和 | 
-| --  | :--:  | :--: |  :--:  |
 | install.md  | Y  |  Y | |
 | agent.md | Y | Y| |
 | services.md|Y|||
@@ -23,3 +17,4 @@ intro/getting-started
 | kv.md|Y|||
 | ui.md|Y|Y||
 | next-steps.md|Y|Y|||
+
