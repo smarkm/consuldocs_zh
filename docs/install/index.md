@@ -15,12 +15,9 @@ zip文件下载完成后，解压到任意目录。`consul`二进制文件满足
 可以将二进制文件拷贝到系统的任何地方。如果你尝试从命令行访问，请确保其在系统变量`PATH`下。
 
 ## 从源码编译
+为了从源码编译，你需要安装 [Go](https://golang.org) 并配置变量(including a `GOPATH` environment variable set), 并且[`git`](https://www.git-scm.com/) 需要在环境变量 `PATH`下.
 
-To compile from source, you will need [Go](https://golang.org) installed and
-configured properly (including a `GOPATH` environment variable set), as well as
-a copy of [`git`](https://www.git-scm.com/) in your `PATH`.
-
-  1. Clone the Consul repository from GitHub into your `GOPATH`:
+  1. 从github克隆Consul Repo到`GOPATH`下: 
 
     ```shell
     $ mkdir -p $GOPATH/src/github.com/hashicorp && cd $!
@@ -28,27 +25,22 @@ a copy of [`git`](https://www.git-scm.com/) in your `PATH`.
     $ cd consul
     ```
 
-  1. Bootstrap the project. This will download and compile libraries and tools
-  needed to compile Consul:
+  1. 引导项目，这会下载和编译lib和工具（编译Consul需要的）:
 
     ```shell
     $ make bootstrap
     ```
 
-  1. Build Consul for your current system and put the binary in `./bin/`
-  (relative to the git checkout). The `make dev` target is just a shortcut that
-  builds `consul` for only your local build environment (no cross-compiled
+  1. 从当前系统构建Consul并将二进制文件放到 `./bin/`
+  (相对git checkout). `make dev`目的只是创建快捷方式 `consul` for only your local build environment (no cross-compiled
   targets).
 
     ```shell
     $ make dev
     ```
 
-## Verifying the Installation
-
-To verify Consul is properly installed, run `consul -v` on your system. You
-should see help output. If you are executing it from the command line, make sure
-it is on your PATH or you may get an error about Consul not being found.
+## 验证安装成功
+验证Consul的是否正确安装，运行 `consul -v`。你应该能看到帮助信息。如果你从命令行执行,需要确保其在PATH环境变量下否则会出现Consul找不到的错误。
 
 ```shell
 $ consul -v
