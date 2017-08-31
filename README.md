@@ -24,6 +24,13 @@
 | upgrading.md | Y | | |
 | faq.md |  | | ||
 
+**docs/install**
+
+| File        | 翻译           | 初步校验  | 审核|
+| ------------- |:-------------:|:-----:|:----:|
+| index.md  | Y  |   | |
+| |||||
+
 **docs/internals**
 
 | File        | 翻译           | 初步校验  | 审核|
