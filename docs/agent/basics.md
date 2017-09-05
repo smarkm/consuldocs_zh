@@ -60,30 +60,31 @@ $ consul agent -data-dir=/tmp/consul
   in ["bootstrap"](/docs/agent/options.html#_bootstrap_expect) mode. Multiple servers
   cannot be in bootstrap mode as that would put the cluster in an inconsistent state.
 
-* **Client Addr**: This is the address used for client interfaces to the agent.
+* **Client Addr**: 这是用于代理的客户端接口的地址。包含HTTP和DNS接口的port，绑定在本地。如果想 改变IP和端口，你需要在运行命令指定`-http-addr`来说明如何访问到agent。其他应用同样可以使用HTTP地址和端口来[控制Consul](/api/index.html)。This is the address used for client interfaces to the agent.
   This includes the ports for the HTTP and DNS interfaces. By default, this binds only
   to localhost. If you change this address or port, you'll have to specify a `-http-addr`
   whenever you run commands such as [`consul members`](/docs/commands/members.html) to
   indicate how to reach the agent. Other applications can also use the HTTP address and port
   [to control Consul](/api/index.html).
 
-* **Cluster Addr**: This is the address and set of ports used for communication between
-  Consul agents in a cluster. Not all Consul agents in a cluster have to
-  use the same port, but this address **MUST** be reachable by all other nodes.
+* **Cluster Addr**: Consul集群中agents相互通信的端口集合，不是集群中所有的agent都需要使用相同的端口，但是地址必须是所有节点可访问的。
 
-When running under `systemd` on Linux, Consul notifies systemd by sending
+当运行在Linux系统的`systemd`下时，Consul通过发出`READY=1`到`$NOTIFY_SOCKET`来通知systemd一个LAN 加入完成。When running under `systemd` on Linux, Consul notifies systemd by sending
 `READY=1` to the `$NOTIFY_SOCKET` when a LAN join has completed. For
 this either the `join` or `retry_join` option has to be set and the
 service definition file has to have `Type=notify` set.
 
-## Stopping an Agent
+## 停止 Agent
 
-An agent can be stopped in two ways: gracefully or forcefully. To gracefully
+一个agent可以通过两种方法停掉：优雅的和强制的。
+An agent can be stopped in two ways: gracefully or forcefully.
+对于优雅的停止agent，发送给进程一个终断信号（通常是从命令行使用`Ctrl-C`或者执行 `kill -INT consul_pid`）。当优雅的停掉agent的时，agent首先通知 集群它想要离开集群。这样其他的。。。 To gracefully
 halt an agent, send the process an interrupt signal (usually
 `Ctrl-C` from a terminal or running `kill -INT consul_pid` ). When gracefully exiting, the agent first notifies
 the cluster it intends to leave the cluster. This way, other cluster members
 notify the cluster that the node has _left_.
 
+另一种方法，你可以强制
 Alternatively, you can force kill the agent by sending it a kill signal.
 When force killed, the agent ends immediately. The rest of the cluster will
 eventually (usually within seconds) detect that the node has died and
