@@ -8,13 +8,11 @@ description: |-
 
 # Consul Agent
 
-Consul Agent 是consul核心处理。Agent管理成员的信息，注册服务，运行检查，查询响应等。Agent必须在每一个节点上运行，它是集群的一部分。
-The Consul agent is the core process of Consul. The agent maintains membership
-information, registers services, runs checks, responds to queries,
-and more. The agent must run on every node that is part of a Consul cluster.
+Consul Agent 是consul核心程序。Agent管理成员的信息，注册服务，运行检查，查询响应等。Agent必须在每一个节点上运行，它是集群的一部分。
 
-任何一个Agent都将运行一中或两中模式：clent或server。Server节点提供[consensus quorum](/docs/internals/consensus.html).的额外信息。
-Any agent may run in one of two modes: client or server. A server
+
+任何一个Agent都将运行两中模式中的一种：clent或server。server节点提供[consensus quorum](/docs/internals/consensus.html).的额外信息。
+ A server
 node takes on the additional responsibility of being part of the [consensus quorum](/docs/internals/consensus.html).
 These nodes take part in Raft and provide strong consistency and availability in
 the case of failure. The higher burden on the server nodes means that usually they
@@ -25,13 +23,10 @@ of their own.
 
 ## 运行 Agent
 
-Agent通过命令[`consul agent`](/docs/commands/agent.html)启动。下面的命令块会一直运行，知道被通知推出。Agent命令提供很多配置参数，但是很多shi默认提供的。
-The agent is started with the  command. This
-command blocks, running forever or until told to quit. The agent command takes a variety
-of configuration options, but most have sane defaults.
+Agent通过命令[`consul agent`](/docs/commands/agent.html)启动。下面的命令块会一直运行，直到被通知推出。agent命令提供很多配置参数，但是很多是默认提供的。
 
 
-当运行 [`consul agent`](/docs/commands/agent.html)时, 你会看到类似一下的输出:
+当运行 [`consul agent`](/docs/commands/agent.html)时, 你会看到类似以下的输出:
 
 ```text
 $ consul agent -data-dir=/tmp/consul
@@ -50,17 +45,16 @@ $ consul agent -data-dir=/tmp/consul
 ```
 [`consul agent`](/docs/commands/agent.html) 会输出很多重要的信息:
 
-* **Node name**: 这是Agent的唯一名字。默认的是机器的hostname，但你可以通过  [`-node`](/docs/agent/options.html#_node)标记自定义。This is a unique name for the agent. By default, this
-  is the hostname of the machine, but you may customize it using the
- flag.
+* **Node name**: 这是agent的唯一名字。默认的是机器的hostname，但你可以通过  [`-node`](/docs/agent/options.html#_node)标记自定义。
 
-* **Datacenter**: This is the datacenter in which the agent is configured to run.
+* **Datacenter**: agent配置运行的数据中心。Consul对多数据中心提供良好的支持，为了有效的工作，每一个节点必须配置报告他的数据中心。[`-datacenter`](/docs/agent/options.html#_datacenter)标记可以用来设置数据 中心。对于单数据中心配置，在 agent中默认为`dc1`.This is the datacenter in which the agent is configured to run.
  Consul has first-class support for multiple datacenters; however, to work efficiently,
  each node must be configured to report its datacenter. The [`-datacenter`](/docs/agent/options.html#_datacenter)
  flag can be used to set the datacenter. For single-DC configurations, the agent
  will default to "dc1".
 
-* **Server**: This indicates whether the agent is running in server or client mode.
+* **Server**: 指明agent是运行在server还是client模式下。server有协商法定人数的责任，存储集群状态，处理查询。另外，server也许在运行在["bootstrap"](/docs/agent/options.html#_bootstrap_expect) 模式下。多个服务器
+不能处于自举模式，因为这将使集群处于不一致的状态。This indicates whether the agent is running in server or client mode.
   Server nodes have the extra burden of participating in the consensus quorum,
   storing cluster state, and handling queries. Additionally, a server may be
   in ["bootstrap"](/docs/agent/options.html#_bootstrap_expect) mode. Multiple servers
