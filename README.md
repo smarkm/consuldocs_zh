@@ -19,11 +19,11 @@
 
 | 目录        | 翻译           | 初步校验  | 审核|
 | ------------- |:-------------:|:-----:|:----:|
-| intro | smarkm |||
+| intro | smarkm :pencil2: |||
 | intro/getting-started  | smarkm :books:  |  smark | |
-| intro/vs | smarkm  |  | |
-| docs | smarkm |||
-| docs/agent | smarkm |||
+| intro/vs | smarkm :pencil2: |  | |
+| docs | smarkm :pencil2:|||
+| docs/agent | smarkm :pencil2: |||
 | docs/commands ||||
 | docs/commands/catalog ||||
 | docs/commands/kv ||||
