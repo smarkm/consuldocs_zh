@@ -19,7 +19,7 @@
 
 | 目录        | 翻译           | 初步校验  | 审核|
 | ------------- |:-------------:|:-----:|:----:|
-| intro | smarkm :pencil2: |||
+| intro | smarkm :books: |||
 | intro/getting-started  | smarkm :books:  |  smark | |
 | intro/vs | smarkm :pencil2: |  | |
 | docs | smarkm :pencil2:|||
