@@ -6,25 +6,17 @@ description: |-
   That concludes the getting started guide for Consul. Hopefully you're able to see that while Consul is simple to use, it has a powerful set of features. We've covered the basics for all of these features in this guide.
 ---
 
-# Next Steps
+### 下一步
 
-That concludes the getting started guide for Consul. Hopefully you're able to
-see that while Consul is simple to use, it has a powerful set of features.
-We've covered the basics for all of these features in this guide.
+总结一下Consul入门指南。 希望你能看到,尽管高很容易使用,但它有一组强大的特性。 我们已经在本指南介绍了这些特性的基础知识。
 
-Consul is designed to be friendly to both the DevOps community and
-application developers, making it perfect for modern, elastic infrastructures.
+Consul被设计成对DevOps社区和应用程序开发人员友好的,使它适合现代的、弹性的基础设施。
 
-As a next step, the following resources are available:
+下一步,有以下可用资源:
 
-* [Documentation](/docs/index.html) - The documentation is an in-depth reference
-  guide to all the features of Consul, including technical details about the
-  internals of how Consul operates.
+* [文档](https://www.consul.io/docs/),文档是一个包含所有Consul功能的深入参考指南,包括Consul技术有关如何运作的内部细节。
 
-* [Guides](/docs/guides/index.html) - This section provides various getting
-  started guides with Consul, including how to bootstrap a new datacenter.
 
-* [Examples](https://github.com/hashicorp/consul/tree/master/demo) -
-  The work-in-progress examples folder within the GitHub
-  repository for Consul contains functional examples of various use cases
-  of Consul to help you get started with exactly what you need.
+* [指南](https://www.consul.io/docs/guides/),本节提供Consul入门的各种指南,包括如何引导一个新的数据中心。
+
+* [示例](https://github.com/hashicorp/consul/tree/master/demo)，-GitHub上一个关于COnsul的不断完善的示例目录包含很多使用的case，为你提供一个开始，这应该是你需要的。

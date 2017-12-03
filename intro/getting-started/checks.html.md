@@ -6,100 +6,63 @@ description: |-
   We've now seen how simple it is to run Consul, add nodes and services, and query those nodes and services. In this step, we will continue our tour by adding health checks to both nodes and services. Health checks are a critical component of service discovery that prevent using services that are unhealthy.
 ---
 
-# Health Checks
+## 健康检查
 
-We've now seen how simple it is to run Consul, add nodes and services, and
-query those nodes and services. In this section, we will continue our tour
-by adding health checks to both nodes and services. Health checks are a
-critical component of service discovery that prevent using services that
-are unhealthy.
+我们现在看到有多么简单运行领事,添加节点和服务和查询这些节点和服务。 在本节中,我们将继续我们的旅行通过添加健康检查两个节点和服务。 健康检查服务盘的关键组件。
 
-This step builds upon [the Consul cluster created previously](join.html).
-At this point, you should have a two-node cluster running.
+这一步构建在先前创建的领事集群。 此时,您应该有一个两节点集群运行。
 
-## Defining Checks
+### 定义坚持
 
-Similar to a service, a check can be registered either by providing a
-[check definition](/docs/agent/checks.html) or by making the
-appropriate calls to the [HTTP API](/api/health.html).
+类似于一个服务,检查可以通过提供一个注册检查定义或通过适当的HTTP API调用。
 
-We will use the check definition approach because, just like with
-services, definitions are the most common way to set up checks.
+我们将使用检查定义方法,因为,就像服务,定义设置检查是最常见的方式。
 
-Create two definition files in the Consul configuration directory of
-the second node:
+创建两个定义文件的高配置目录中第二个节点:
 
-```text
-vagrant@n2:~$ echo '{"check": {"name": "ping",
-  "script": "ping -c1 google.com >/dev/null", "interval": "30s"}}' \
-  >/etc/consul.d/ping.json
+    vagrant@n2:~$ echo '{"check": {"name": "ping",
+      "script": "ping -c1 google.com >/dev/null", "interval": "30s"}}' \
+      >/etc/consul.d/ping.json
 
-vagrant@n2:~$ echo '{"service": {"name": "web", "tags": ["rails"], "port": 80,
-  "check": {"script": "curl localhost >/dev/null 2>&1", "interval": "10s"}}}' \
-  >/etc/consul.d/web.json
-```
+    vagrant@n2:~$ echo '{"service": {"name": "web", "tags": ["rails"], "port": 80,
+      "check": {"script": "curl localhost >/dev/null 2>&1", "interval": "10s"}}}' \
+      >/etc/consul.d/web.json
 
-The first definition adds a host-level check named "ping". This check runs
-on a 30 second interval, invoking `ping -c1 google.com`. On a `script`-based
-health check, the check runs as the same user that started the Consul process.
-If the command exits with a non-zero exit code, then the node will be flagged
-unhealthy. This is the contract for any `script`-based health check.
+第一个定义添加一个host-level检查命名为“平”。 这张支票在30秒的时间间隔运行,调用ping google.com往上平移。 在一个基于脚本的健康检查,检查运行相同的用户开始领事的过程。如果命令退出非零退出代码,那么节点将标记不健康。 这是合同对任何基于脚本的健康检查。
 
-The second command modifies the service named `web`, adding a check that sends a
-request every 10 seconds via curl to verify that the web server is accessible.
-As with the host-level health check, if the script exits with a non-zero exit code,
-the service will be flagged unhealthy.
+第二个命令修改服务命名web,添加一个检查每10秒发送一个请求通过curl来验证web服务器访问。 与host-level健康检查,如果与一个非零退出代码脚本将退出,该服务将标记不健康。
 
-Now, restart the second agent, reload it with `consul reload`, or send it a `SIGHUP` signal. You should see the
-following log lines:
+现在,启动第二个代理或将其发送SIGHUP信号。 您应该能看到以下日志行:
 
-```text
-==> Starting Consul agent...
-...
-    [INFO] agent: Synced service 'web'
-    [INFO] agent: Synced check 'service:web'
-    [INFO] agent: Synced check 'ping'
-    [WARN] Check 'service:web' is now critical
-```
+    ==> Starting Consul agent...
+    ...
+        [INFO] agent: Synced service 'web'
+        [INFO] agent: Synced check 'service:web'
+        [INFO] agent: Synced check 'ping'
+        [WARN] Check 'service:web' is now critical
 
-The first few lines indicate that the agent has synced the new
-definitions. The last line indicates that the check we added for
-the `web` service is critical. This is because we're not actually running
-a web server, so the curl test is failing!
+前几行表明,代理已同步的新定义。 最后一行显示的检查我们添加了web服务是至关重要的。 这是因为我们没有实际运行一个web服务器,所以旋度测试是失败的!
 
-## Checking Health Status
+### 健康状态检查
 
-Now that we've added some simple checks, we can use the HTTP API to inspect
-them. First, we can look for any failing checks using this command (note, this
-can be run on either node):
+既然我们已经添加了一些简单的检查,我们可以使用HTTP API检查它们。 首先,我们可以使用这个命令寻找任何失败的检查(注意,这既可以运行在节点):
 
-```text
-vagrant@n1:~$ curl http://localhost:8500/v1/health/state/critical
-[{"Node":"agent-two","CheckID":"service:web","Name":"Service 'web' check","Status":"critical","Notes":"","ServiceID":"web","ServiceName":"web"}]
-```
+    vagrant@n1:~$ curl http://localhost:8500/v1/health/state/critical
+    [{"Node":"agent-two","CheckID":"service:web","Name":"Service 'web' check","Status":"critical","Notes":"","ServiceID":"web","ServiceName":"web"}]
 
-We can see that there is only a single check, our `web` service check, in the
-`critical` state.
+我们可以看到,只有一个,我们的web服务检查,在临界状态。
 
-Additionally, we can attempt to query the web service using DNS. Consul
-will not return any results since the service is unhealthy:
+此外,我们可以尝试使用DNS查询web服务。 领事将不会返回任何结果自服务是不健康的:
 
-```text
-dig @127.0.0.1 -p 8600 web.service.consul
-...
+    dig @127.0.0.1 -p 8600 web.service.consul
+    ...
 
-;; QUESTION SECTION:
-;web.service.consul.		IN	A
-```
+    ;; QUESTION SECTION:
+    ;web.service.consul.        IN  A
 
-## Next Steps
+### 下一步
 
-In this section, you learned how easy it is to add health checks. Check definitions
-can be updated by changing configuration files and sending a `SIGHUP` to the agent.
-Alternatively, the HTTP API can be used to add, remove, and modify checks dynamically.
-The API also allows for a "dead man's switch", a
-[TTL-based check](/docs/agent/checks.html#TTL). TTL checks can be used to integrate an
-application more tightly with Consul, enabling business logic to be evaluated as part
-of assessing the state of the check.
+在本节中,您学习了是多么容易添加健康检查。 检查定义可以通过改变配置文件更新并发送SIGHUP代理。
+此外,HTTP API可以用来添加、删除和修改动态检查。 API还允许“死者的开关”,TTL-based检查。 TTL检查可用于应用程序集成与高更紧密,使业务逻辑
 
-Next, we will explore [Consul's K/V store](kv.html).
+接下来,我们将探索领事的K / V存储。 

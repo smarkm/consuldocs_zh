@@ -6,52 +6,42 @@ description: |-
   Consul must first be installed on every node that will be a member of the Consul cluster. To make installation easy, Consul is distributed as a binary package for all supported platforms and architectures. This page will not cover how to compile Consul from source.
 ---
 
-# Install Consul
+## **Consul安装**
+Consul必须在每一个Consul集群的节点上安装。为了使安装简便，Consul为所有支持平台和体系结构提供[二进制包](https://www.consul.io/downloads.html)。本页面不会描述如何通过源码进行编译。
 
-Consul must first be installed on your machine. Consul is distributed as a
-[binary package](/downloads.html) for all supported platforms and architectures.
-This page will not cover how to compile Consul from source, but compiling from
-source is covered in the [documentation](/docs/index.html) for those who want to
-be sure they're compiling source they trust into the final binary.
+### 安装Consul
+Consul被打包成一个`zip`文件，安装Consul需要选择[合适的安装包](https://www.consul.io/downloads.html)。
 
-## Installing Consul
+下载Consul后解压。将`consul`二进制文件拷贝到`PTAH`下面一般能够通过命令行执行。在Unix系统下，通常安装在`~/bin`或`/usr/local/bin`目录下，取决于如果你想限制单个用户的安装或使整个系统 。在Windows系统下面，你可以放到任何地方，通常会放在`%PATH%`。
 
-To install Consul, find the [appropriate package](/downloads.html) for
-your system and download it. Consul is packaged as a zip archive.
+### OS X
+如果你使用homebrew作为包管理器，你可以通过如下命令安装：
+  $brew cask install consul
 
-After downloading Consul, unzip the package. Consul runs as a single binary
-named `consul`. Any other files in the package can be safely removed and
-Consul will still function.
+如果你错过cask plugin，你可以使用下面的命令安装：
+  $brew install caskroom/cask/brew-cask
 
-The final step is to make sure that the `consul` binary is available on the `PATH`.
-See [this page](https://stackoverflow.com/questions/14637979/how-to-permanently-set-path-on-linux)
-for instructions on setting the PATH on Linux and Mac.
-[This page](https://stackoverflow.com/questions/1618280/where-can-i-set-path-to-make-exe-on-windows)
-contains instructions for setting the PATH on Windows.
+### 验证安装
+安装完成后打开新的终端验证consul是否可用。执行consul你应该会看到类似下面的信息：
 
-## Verifying the Installation
+    $ consul
+    usage: consul [--version] [--help] <command> [<args>]  
+    Available commands are:  
+      agent          Runs a Consul agent  
+      event          Fire a new event  
+      exec           Executes a command on Consul nodes  
+      force-leave    Forces a member of the cluster to enter the "left" state  
+      info           Provides debugging information for operators  
+      join           Tell Consul agent to join cluster  
+      keygen         Generates a new encryption key  
+      leave          Gracefully leaves the Consul cluster and shuts down  
+      members        Lists the members of a Consul cluster  
+      monitor        Stream logs from a Consul agent  
+      reload         Triggers the agent to reload configuration files  
+      version        Prints the Consul version  
+      watch          Watch for changes in Consul  
 
-After installing Consul, verify the installation worked by opening a new
-terminal session and checking that `consul` is available. By executing
-`consul` you should see help output similar to this:
+如果出错可能是consul没有安装好，可能是你的PATH环境没有设置。请返回确认你的PATH参数包含COnsul安装的目录。
 
-```text
-$ consul
-usage: consul [--version] [--help] <command> [<args>]
-
-Available commands are:
-    agent          Runs a Consul agent
-    event          Fire a new event
-
-# ...
-```
-
-If you get an error that `consul` could not be found, your `PATH`
-environment variable was not set up properly. Please go back and ensure
-that your `PATH` variable contains the directory where Consul was
-installed.
-
-## Next Steps
-
-Consul is installed and ready for operation. Let's
-[run the agent](agent.html)!
+### 下一步
+Consul安装好准备使用，然我们来[运行agent](https://www.consul.io/intro/getting-started/agent.html)!
